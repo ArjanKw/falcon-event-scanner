@@ -1,26 +1,25 @@
-This is a starter template for [Ionic](http://ionicframework.com/docs/) projects.
+# Falcon Event Scanner
+A fast scanner which is able to scan QR codes for reservations in events.
 
-## How to use this template
+The main goal of this scanner is to provide a fast scanner which can check whether a QR code is coupled to a reservation. It uses an offline list of reservation codes to fasten up the checking process. An asynchronous call is made to confirm the registration without delaying the entry process.
 
-*This template does not work on its own*. The shared files for each starter are found in the [ionic2-app-base repo](https://github.com/ionic-team/ionic2-app-base).
-
-To use this template, either create a new ionic project using the ionic node.js utility, or copy the files from this repository into the [Starter App Base](https://github.com/ionic-team/ionic2-app-base).
-
-### With the Ionic CLI:
-
-Take the name after `ionic2-starter-`, and that is the name of the template to be used when using the `ionic start` command below:
+## Setup
+Make sure you have installed Node.js. Install ionic, cordova and adb with the following command:
 
 ```bash
-$ sudo npm install -g ionic cordova
-$ ionic start myTabs tabs
+$ npm install -g ionic cordova adb
 ```
 
-Then, to run it, cd into `myTabs` and run:
+## Running the app locally
+Cd into `falcon-event-scanner` and run:
 
 ```bash
-$ ionic cordova platform add ios
-$ ionic cordova run ios
+$ ionic serve -l
 ```
 
-Substitute ios for android if not on a Mac.
+## Running the app on your Android device
+Connect your device and use the `adb devices` command to check whether your device is connected. Then, cd into `falcon-event-scanner` and run:
 
+```bash
+$ ionic cordova run android
+```
