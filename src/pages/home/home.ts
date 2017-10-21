@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, ToastController } from 'ionic-angular';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
+import { AngularFireAuth } from 'angularfire2/auth'
 
 @Component({
   selector: 'page-home',
@@ -8,13 +9,35 @@ import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController, private qrScanner: QRScanner) {
+  constructor(private afAuth: AngularFireAuth, private toast: ToastController, public navCtrl: NavController, private qrScanner: QRScanner) {
+    this.startScanning();
+  }
+
+  ionViewWillLoad() {
+    this.afAuth.authState.subscribe(data => {
+      console.log(data);
+
+      if (data && data.email && data.uid) {
+        this.toast.create({
+          message: `Welkom ${data.email} :)`,
+          duration: 3000
+        }).present();
+      } else {
+        this.toast.create({
+          message: `Kon geen authenticatiebron vinden.`,
+          duration: 3000,
+        }).present();
+      }
+    })
+  }
+
+  /// Start scanning for QR codes.
+  public startScanning() {
     // Request the permission if it wasn't done already.
     this.qrScanner.prepare()
     .then((status: QRScannerStatus) => {
-
-      if (status.authorized) {
-        // camera permission was granted
+      if (status.authorized) { // camera permission was granted
+        
 
         // show camera preview
         this.qrScanner.show();
@@ -23,6 +46,7 @@ export class HomePage {
         let scanSub = this.qrScanner.scan().subscribe((code: string) => {
           alert('Scanned the following code: ' + code);
 
+          scanSub.unsubscribe();
         });
       } else if (status.denied) {
         console.log('denied');
