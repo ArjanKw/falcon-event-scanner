@@ -23,3 +23,6 @@ Connect your device and use the `adb devices` command to check whether your devi
 ```bash
 $ ionic cordova run android
 ```
+
+## Credits
+[The icon](https://www.iconfinder.com/icons/87458/code_iphone_qr_icon) is created by [Design Contest](http://www.designcontest.com/) and is released under the '[Attribution 3.0 Unported (CC BY 3.0)](https://creativecommons.org/licenses/by/3.0/)' license.
