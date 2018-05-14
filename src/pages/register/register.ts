@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { User } from '../../app/models/user';
-import { AngularFireAuth } from "angularfire2/auth"
+import { AngularFireAuth } from 'angularfire2/auth'
+import { LoginPage } from '../login/login'
 
 @IonicPage()
 @Component({
@@ -12,7 +13,11 @@ import { AngularFireAuth } from "angularfire2/auth"
 export class RegisterPage {
   user = {} as User;
   
-  constructor(private afAuth: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    private afAuth: AngularFireAuth,
+    private toast: ToastController,
+    public navCtrl: NavController,
+    public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
@@ -22,9 +27,22 @@ export class RegisterPage {
   async register(user: User) {
     try {
       const result = await this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password);
-      console.log(result);
+      
+      if (result) {
+        this.toast.create({
+          message: "Account succesvol geregistreerd",
+          duration: 3000
+        }).present();
+
+        this.navCtrl.push(LoginPage);
+      }
     }
     catch (e) {
+      this.toast.create({
+        message: "Account kon niet worden geregistreerd",
+        duration: 3000
+      }).present();
+
       console.error(e);
     }
   }

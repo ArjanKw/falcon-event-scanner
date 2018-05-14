@@ -1,12 +1,10 @@
 page-home {
-
-}
-
-/* 
- * Remove background, so the camera view can be seen.
- * When the QR Scanner activates the camera it does so by placing
- * it behind the <html>.
- */
-ion-app.md, .content-md {
-    background-color: transparent;
+    /* 
+    * Remove background, so the camera view can be seen.
+    * When the QR Scanner activates the camera it does so by placing
+    * it behind the <html>.
+    */
+    .content {
+        background-color: transparent;
+    }
 }

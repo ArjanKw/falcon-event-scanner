@@ -5,12 +5,15 @@ import { MyApp } from './app.component';
 import { QRScanner } from '@ionic-native/qr-scanner';
 import { AngularFireModule } from 'angularfire2'
 import { AngularFireAuthModule } from 'angularfire2/auth'
+import { AngularFireDatabaseModule } from 'angularfire2/database'
 import { RegisterPageModule } from '../pages/register/register.module'
+
+import { AppDisplayService } from './shared/app-display/app-display.service'
 
 import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
 import { SettingsPage } from '../pages/settings/settings';
-import { AboutPage } from '../pages/about/about';
+import { EventsPage } from '../pages/events/events';
 import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -22,7 +25,7 @@ import { FIREBASE_CONFIG } from './app.firebase.config'
     MyApp,
     HomePage,
     SettingsPage,
-    AboutPage,
+    EventsPage,
     TabsPage,
     LoginPage,
   ],
@@ -30,13 +33,14 @@ import { FIREBASE_CONFIG } from './app.firebase.config'
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
+    AngularFireDatabaseModule,
     AngularFireAuthModule,
     RegisterPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AboutPage,
+    EventsPage,
     SettingsPage,
     HomePage,
     TabsPage,
@@ -45,7 +49,8 @@ import { FIREBASE_CONFIG } from './app.firebase.config'
   providers: [
     StatusBar,
     SplashScreen,
-    QRScanner,
+    QRScanner,,
+    AppDisplayService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

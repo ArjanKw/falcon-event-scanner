@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, ToastController } from 'ionic-angular';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 import { AngularFireAuth } from 'angularfire2/auth'
+import { AppDisplayService } from '../../app/shared/app-display/app-display.service';
 
 @Component({
   selector: 'page-home',
@@ -9,26 +10,28 @@ import { AngularFireAuth } from 'angularfire2/auth'
 })
 export class HomePage {
 
-  constructor(private afAuth: AngularFireAuth, private toast: ToastController, public navCtrl: NavController, private qrScanner: QRScanner) {
+  constructor(
+    private afAuth: AngularFireAuth,
+    private toast: ToastController,
+    private qrScanner: QRScanner,
+    private appDisplay: AppDisplayService,
+    public navCtrl: NavController) {
     this.startScanning();
   }
 
   ionViewWillLoad() {
-    this.afAuth.authState.subscribe(data => {
-      console.log(data);
+    // this.afAuth.authState.subscribe(data => {
+    //   console.log(data);
 
-      if (data && data.email && data.uid) {
-        this.toast.create({
-          message: `Welkom ${data.email} :)`,
-          duration: 3000
-        }).present();
-      } else {
-        this.toast.create({
-          message: `Kon geen authenticatiebron vinden.`,
-          duration: 3000,
-        }).present();
-      }
-    })
+    //   if (data && data.email && data.uid) {
+        
+    //   } else {
+    //     this.toast.create({
+    //       message: `Kon geen authenticatiebron vinden.`,
+    //       duration: 3000,
+    //     }).present();
+    //   }
+    // })
   }
 
   /// Start scanning for QR codes.
@@ -41,6 +44,7 @@ export class HomePage {
 
         // show camera preview
         this.qrScanner.show();
+        this.appDisplay.setBackgroundColor('transparent');
 
         // start scanning
         let scanSub = this.qrScanner.scan().subscribe((code: string) => {
